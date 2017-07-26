@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BaseController {
 
-    @RequestMapping("/index.do")
+    @RequestMapping("/index")
     public String getIndex() {
         return "Hello SSM on javaconfig";
     }

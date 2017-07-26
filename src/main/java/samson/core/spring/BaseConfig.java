@@ -12,5 +12,6 @@ import samson.ConfigMark;
  */
 @Configuration
 @ComponentScan(basePackageClasses = ConfigMark.class,
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class)})
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class)}
+        )
 public class BaseConfig { }

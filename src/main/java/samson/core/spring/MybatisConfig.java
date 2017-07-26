@@ -1,6 +1,6 @@
 package samson.core.spring;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -41,16 +41,36 @@ public class MybatisConfig {
     private String userName;
     @Value("${jdbc.password}")
     private String passWord;
-    @Value("${initialSize}")
+
+    @Value("${jdbc.initialSize}")
     private int initialSize;
-    @Value("${maxActive}")
+    @Value("${jdbc.maxActive}")
     private int maxActive;
-    @Value("${maxIdle}")
-    private int maxIdle;
-    @Value("${minIdle}")
+    @Value("${jdbc.minIdle}")
     private int minIdle;
-    @Value("${maxWait}")
+    @Value("${jdbc.maxWait}")
     private long maxWait;
+
+    @Value("${jdbc.testWhileIdle}")
+    private boolean testWhileIdle;
+    @Value("${jdbc.timeBetweenEvictionRunsMillis}")
+    private long timeBetweenEvictionRunsMillis;
+    @Value("${jdbc.validationQuery}")
+    private String validationQuery;
+
+    @Value("${jdbc.testOnBorrow}")
+    private boolean testOnBorrow;
+    @Value("${jdbc.testOnReturn}")
+    private boolean testOnReturn;
+    @Value("${jdbc.logAbandoned}")
+    private boolean logAbandoned;
+
+    @Value("${jdbc.minEvictableIdleTimeMillis}")
+    private long minEvictableIdleTimeMillis;
+    @Value("${jdbc.removeAbandoned}")
+    private boolean removeAbandoned;
+    @Value("${jdbc.removeAbandonedTimeout}")
+    private int removeAbandonedTimeout;
 
     /**
      * 自动加载环境变量
@@ -58,28 +78,42 @@ public class MybatisConfig {
      * @return PropertySourcesPlaceholderConfigurer
      */
     public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-        LOGGER.info("PropertySourcesPlaceholderConfigurer");
+        LOGGER.info("mybatis PropertySourcesPlaceholderConfigurer");
         return new PropertySourcesPlaceholderConfigurer();
     }
 
 
     /**
-     * 配置数据源
+     * 配置数据源(阿里druid数据池
      * @return BasicDataSource
      */
     @Bean
-    public BasicDataSource dataSource() {
-        LOGGER.info("load BasicDataSource");
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(driverClass);
+    public DruidDataSource dataSource() {
+        LOGGER.info("load DruidDataSource");
+        DruidDataSource dataSource = new DruidDataSource();
+
+        dataSource.setDriverClassName(driverClass); //Druid可以根据url自动推断，可以不用配置
         dataSource.setUrl(url);
         dataSource.setUsername(userName);
         dataSource.setPassword(passWord);
+
         dataSource.setInitialSize(initialSize);
         dataSource.setMaxActive(maxActive);
-        dataSource.setMaxIdle(maxIdle);
         dataSource.setMinIdle(minIdle);
         dataSource.setMaxWait(maxWait);
+
+        dataSource.setTestWhileIdle(testWhileIdle);
+        dataSource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+        dataSource.setValidationQuery(validationQuery);
+
+        dataSource.setTestOnBorrow(testOnBorrow);
+        dataSource.setTestOnReturn(testOnReturn);
+        dataSource.setLogAbandoned(logAbandoned);
+
+        dataSource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+        dataSource.setRemoveAbandoned(removeAbandoned);
+        dataSource.setRemoveAbandonedTimeout(removeAbandonedTimeout);
+
         return dataSource;
     }
 
