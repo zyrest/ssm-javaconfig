@@ -1,15 +1,13 @@
-import com.alibaba.fastjson.JSON;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import samson.common.dao.UserMapper;
 import samson.common.po.User;
-import samson.common.util.SerializeUtil;
+import samson.core.shiro.cache.JedisManager;
 import samson.core.spring.BaseConfig;
 import samson.core.spring.MvcConfig;
 import samson.core.spring.MybatisConfig;
@@ -39,11 +37,15 @@ public class TestDao {
         LOGGER.info(new String(org.apache.shiro.codec.Base64.decode(deco)));
     }
 
-    @Test
-    public void test() {
-        String line = "[auth]";
-        String section = line.replaceFirst("^\\[(\\S+)]$", "$1");
+    @Resource
+    JedisManager jedisManager;
 
-        LOGGER.info(section);
+    @Test
+    public void test() throws Exception {
+        String key = "zhou";
+        String value = "历史";
+        jedisManager.saveValueByKey(0, key.getBytes(), value.getBytes(), 60);
+        LOGGER.info(new String(jedisManager.getValueByKey(0, key.getBytes())));
+        jedisManager.deleteByKey(0, key.getBytes());
     }
 }

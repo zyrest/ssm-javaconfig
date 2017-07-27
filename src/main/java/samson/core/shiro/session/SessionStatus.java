@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class SessionStatus implements Serializable {
 
     /**
-     * 是否踢出，true有效，false踢出
+     * 是否，true有效，false踢出
      */
     private Boolean onlineStatus = true;
 

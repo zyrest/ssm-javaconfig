@@ -63,7 +63,7 @@ public class PermissionFilter extends AccessControlFilter {
 
         Subject subject = getSubject(servletRequest, servletResponse);
         if (subject.getPrincipal() == null) {
-            saveRequest(servletRequest);
+            WebUtils.saveRequest(servletRequest);
             WebUtils.issueRedirect(servletRequest, servletResponse, ShiroFilterUtil.LOGIN_URL);
         } else {
             if (StringUtils.isNotBlank(ShiroFilterUtil.UNAUTHORIZED)) { //指定未授权页面

@@ -2,6 +2,7 @@ package samson.core.shiro.filter;
 
 import com.alibaba.fastjson.JSON;
 import samson.common.util.LoggerUtil;
+import samson.common.vo.MessageVo;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -34,14 +35,25 @@ public class ShiroFilterUtil {
                 .equalsIgnoreCase("XMLHttpRequest");
     }
 
+    public static void writeJsonToResponse(ServletResponse response, MessageVo message) {
+        if (message == null || message.getStatus() == null) return;
+
+        writeTo(response, message);
+    }
+
     public static void writeJsonToResponse(ServletResponse response, Map<Object, Object> map) {
         if (map == null || map.size() == 0) return;
+
+        writeTo(response, map);
+    }
+
+    private static void writeTo(ServletResponse response, Object object) {
 
         response.setCharacterEncoding("UTF-8");
         PrintWriter pw = null;
         try {
             pw = response.getWriter();
-            pw.write(JSON.toJSONString(map));
+            pw.write(JSON.toJSONString(object));
         } catch (IOException e) {
             LoggerUtil.fmtError(CLAZZ, e, "获取response的writer时出错");
         } finally {
@@ -50,6 +62,5 @@ public class ShiroFilterUtil {
                 pw.close();
             }
         }
-
     }
 }

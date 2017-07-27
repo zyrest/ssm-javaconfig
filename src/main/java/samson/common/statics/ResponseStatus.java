@@ -21,6 +21,7 @@ public class ResponseStatus {
     public static final Integer WRONG_FILE_SIZE = 40008;
     public static final Integer UNVALID_PARAM = 40009;
     public static final Integer UNVALID_HEADER = 40010;
+    public static final Integer KICK_OUT = 40011;
 
     public static final Integer SYSTEM_ERROE = 500;
 }
