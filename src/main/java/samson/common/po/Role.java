@@ -1,6 +1,8 @@
 package samson.common.po;
 
-public class Role {
+import java.io.Serializable;
+
+public class Role implements Serializable {
     private Long roleId;
 
     private String name;

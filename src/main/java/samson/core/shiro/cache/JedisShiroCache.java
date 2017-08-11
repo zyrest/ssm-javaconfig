@@ -62,8 +62,9 @@ public class JedisShiroCache<K, V> implements Cache<K, V> {
         V pervious = get(k);
 
         try {
-            jedisManager.saveValueByKey(ShiroStatics.DB_INDEX, SerializeUtil.serialize(buildCacheKey(k)),
-                    SerializeUtil.serialize(v), -1);
+            jedisManager.saveValueByKey(ShiroStatics.DB_INDEX,
+                                        SerializeUtil.serialize(buildCacheKey(k)),
+                                        SerializeUtil.serialize(v), -1);
         } catch (Exception e) {
             LoggerUtil.fmtError(SELF, "写入缓存时出错", e);
         }

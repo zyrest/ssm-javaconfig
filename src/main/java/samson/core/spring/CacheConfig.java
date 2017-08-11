@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -13,6 +14,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * Created by 96428 on 2017/7/21.
  * This in ssmjavaconfig, samson.core.spring
  */
+@Component
 @Configuration
 //加载资源文件
 @PropertySource({"classpath:cache.properties"})
@@ -41,17 +43,20 @@ public class CacheConfig {
 
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
+
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+
         jedisPoolConfig.setMaxIdle(100);//最大闲置
         jedisPoolConfig.setMinIdle(10);//最小闲置
         jedisPoolConfig.setMaxWaitMillis(5000);//最大等待时间
         jedisPoolConfig.setTestOnBorrow(true);//重新获取
+
         return jedisPoolConfig;
     }
 
     @Bean
-    public JedisPool jedisPool(JedisPoolConfig jedisPoolConfig) {
+    public JedisPool jedisPool() {
 
-        return new JedisPool(jedisPoolConfig, host, port, timeout, password);
+        return new JedisPool(jedisPoolConfig(), host, port, timeout, password);
     }
 }

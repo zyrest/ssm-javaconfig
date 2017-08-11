@@ -30,6 +30,17 @@ import javax.sql.DataSource;
 @MapperScan(basePackageClasses = {BaseDao.class})
 public class MybatisConfig {
     private static final Logger LOGGER = Logger.getLogger(MybatisConfig.class);
+
+    /**
+     * 自动加载环境变量
+     * 必须为static
+     * @return PropertySourcesPlaceholderConfigurer
+     */
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
     /**
      * 绑定资源属性
      */
@@ -43,7 +54,7 @@ public class MybatisConfig {
     private String passWord;
 
     @Value("${jdbc.initialSize}")
-    private int initialSize;
+    private Integer initialSize;
     @Value("${jdbc.maxActive}")
     private int maxActive;
     @Value("${jdbc.minIdle}")
@@ -72,16 +83,6 @@ public class MybatisConfig {
     @Value("${jdbc.removeAbandonedTimeout}")
     private int removeAbandonedTimeout;
 
-    /**
-     * 自动加载环境变量
-     * 必须为static
-     * @return PropertySourcesPlaceholderConfigurer
-     */
-    public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-        LOGGER.info("mybatis PropertySourcesPlaceholderConfigurer");
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
 
     /**
      * 配置数据源(阿里druid数据池
@@ -96,8 +97,8 @@ public class MybatisConfig {
         dataSource.setUrl(url);
         dataSource.setUsername(userName);
         dataSource.setPassword(passWord);
-
-        dataSource.setInitialSize(initialSize);
+//
+//        dataSource.setInitialSize(initialSize);
         dataSource.setMaxActive(maxActive);
         dataSource.setMinIdle(minIdle);
         dataSource.setMaxWait(maxWait);

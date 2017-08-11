@@ -1,5 +1,7 @@
 
+import com.alibaba.fastjson.JSON;
 import org.apache.log4j.Logger;
+import org.apache.shiro.cache.Cache;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -8,9 +10,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import samson.common.dao.UserMapper;
 import samson.common.po.User;
 import samson.core.shiro.cache.JedisManager;
-import samson.core.spring.BaseConfig;
-import samson.core.spring.MvcConfig;
-import samson.core.spring.MybatisConfig;
+import samson.core.shiro.cache.JedisShiroCache;
+import samson.core.shiro.cache.ShiroCacheManager;
+import samson.core.spring.*;
 
 import javax.annotation.Resource;
 
@@ -20,7 +22,7 @@ import javax.annotation.Resource;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {BaseConfig.class, MybatisConfig.class, MvcConfig.class})
+@ContextConfiguration(classes = {BaseConfig.class, MybatisConfig.class, MvcConfig.class, CacheConfig.class, ShiroConfig.class})
 public class TestDao {
     protected static final Logger LOGGER = Logger.getLogger(TestDao.class);
     @Resource
@@ -32,7 +34,7 @@ public class TestDao {
 
         String deco = org.apache.shiro.codec.Base64.encodeToString("my-application".getBytes());
 
-        LOGGER.info(deco);
+        LOGGER.info(JSON.toJSONString(user));
 
         LOGGER.info(new String(org.apache.shiro.codec.Base64.decode(deco)));
     }
@@ -47,5 +49,22 @@ public class TestDao {
         jedisManager.saveValueByKey(0, key.getBytes(), value.getBytes(), 60);
         LOGGER.info(new String(jedisManager.getValueByKey(0, key.getBytes())));
         jedisManager.deleteByKey(0, key.getBytes());
+    }
+
+    @Resource
+    ShiroCacheManager shiroCacheManager;
+
+    @Test
+    public void te() {
+        Cache<Object, Object> cache = shiroCacheManager.getCache("a");
+
+        cache.put("zhou", "ying");
+        LOGGER.info(cache.get("zhou"));
+
+        cache.put("zhang", "san");
+        LOGGER.info(cache.keys() == null);
+
+        cache.remove("zhou");
+        LOGGER.info(cache.get("zhou"));
     }
 }

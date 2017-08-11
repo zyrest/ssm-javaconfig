@@ -1,6 +1,8 @@
 package samson.common.po;
 
-public class UserRoleAuth {
+import java.io.Serializable;
+
+public class UserRoleAuth implements Serializable {
     private Long userId;
 
     private Long roleId;

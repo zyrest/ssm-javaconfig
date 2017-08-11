@@ -3,6 +3,7 @@ package samson.user.service;
 import org.springframework.stereotype.Service;
 import samson.common.dao.UserMapper;
 import samson.common.po.User;
+import samson.common.util.PasswordUtil;
 
 import javax.annotation.Resource;
 
@@ -23,5 +24,12 @@ public class UserService {
     public void updateByPrimaryKeySelective(User user) {
 
         userDao.updateByPrimaryKeySelective(user);
+    }
+
+    public void register(User user) {
+        String pass = PasswordUtil.createHash(user.getPassword());
+        user.setPassword(pass);
+
+        userDao.insert(user);
     }
 }

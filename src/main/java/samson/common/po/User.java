@@ -1,8 +1,9 @@
 package samson.common.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     public static final Long FORBIT = 0L;
 
     private Long userId;

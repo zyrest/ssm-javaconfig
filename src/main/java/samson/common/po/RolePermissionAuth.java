@@ -1,6 +1,8 @@
 package samson.common.po;
 
-public class RolePermissionAuth {
+import java.io.Serializable;
+
+public class RolePermissionAuth implements Serializable {
     private Long roleId;
 
     private Long permissionId;

@@ -3,8 +3,8 @@ package samson.core.shiro.listener;
 import org.apache.log4j.Logger;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
-import org.springframework.stereotype.Component;
-import samson.core.shiro.session.ShiroSessionDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import samson.core.shiro.session.ShiroSessionRepository;
 
 import javax.annotation.Resource;
 
@@ -12,21 +12,21 @@ import javax.annotation.Resource;
  * Created by 96428 on 2017/7/22.
  * This in ssmjavaconfig, samson.core.shiro.listener
  */
-@Component
-public class CustomShiroSessionListener implements SessionListener{
+public class CustomShiroSessionListener implements SessionListener {
 
     private Logger logger = Logger.getLogger(CustomShiroSessionListener.class);
 
     @Resource
-    private ShiroSessionDao shiroSessionDao;
+    @Autowired
+    private ShiroSessionRepository shiroSessionRepository;
 
-    public ShiroSessionDao getShiroSessionDao() {
-        return shiroSessionDao;
-    }
-
-    public void setShiroSessionDao(ShiroSessionDao shiroSessionDao) {
-        this.shiroSessionDao = shiroSessionDao;
-    }
+//    public ShiroSessionRepository getShiroSessionRepository() {
+//        return shiroSessionRepository;
+//    }
+//
+//    public void setShiroSessionRepository(ShiroSessionRepository shiroSessionRepository) {
+//        this.shiroSessionRepository = shiroSessionRepository;
+//    }
 
     @Override
     public void onStart(Session session) {
@@ -42,7 +42,7 @@ public class CustomShiroSessionListener implements SessionListener{
 
     @Override
     public void onExpiration(Session session) {
-        shiroSessionDao.deleteSession(session.getId());
+        shiroSessionRepository.deleteSession(session.getId());
     }
 
 

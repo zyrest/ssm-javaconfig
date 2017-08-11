@@ -3,7 +3,6 @@ package samson.core.shiro.filter;
 
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.stereotype.Component;
 import samson.common.po.User;
 import samson.common.statics.ResponseStatus;
 import samson.core.shiro.token.manager.TokenManager;
@@ -17,7 +16,6 @@ import java.util.Map;
  * Created by 96428 on 2017/7/25.
  * This in ssmjavaconfig, samson.core.shiro.filter
  */
-@Component
 public class LoginFilter extends AccessControlFilter{
     @Override
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse,

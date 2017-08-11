@@ -1,6 +1,9 @@
 package samson.common.po;
 
-public class Permission {
+import java.io.Serializable;
+
+public class Permission implements Serializable {
+
     private Long permissionId;
 
     private String url;

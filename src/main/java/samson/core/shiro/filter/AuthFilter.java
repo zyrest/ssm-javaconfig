@@ -4,7 +4,6 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.stereotype.Component;
 import samson.common.statics.ResponseStatus;
 import samson.core.shiro.session.SessionStatus;
 import samson.core.shiro.statics.ShiroStatics;
@@ -18,7 +17,6 @@ import java.util.Map;
  * Created by 96428 on 2017/7/25.
  * This in ssmjavaconfig, samson.core.shiro.filter
  */
-@Component
 public class AuthFilter extends AccessControlFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse,

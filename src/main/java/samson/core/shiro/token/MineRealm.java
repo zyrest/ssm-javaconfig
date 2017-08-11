@@ -6,7 +6,6 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
-import org.springframework.stereotype.Component;
 import samson.common.po.User;
 import samson.common.util.PasswordUtil;
 import samson.core.shiro.token.exception.WrongPasswordException;
@@ -22,7 +21,6 @@ import java.util.Objects;
  * Created by 96428 on 2017/7/23.
  * This in ssmjavaconfig, samson.core.shiro.token
  */
-@Component
 public class MineRealm extends AuthorizingRealm {
 
     @Resource

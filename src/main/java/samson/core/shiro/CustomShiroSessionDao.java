@@ -3,8 +3,9 @@ package samson.core.shiro;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import samson.common.util.LoggerUtil;
-import samson.core.shiro.session.ShiroSessionDao;
+import samson.core.shiro.session.ShiroSessionRepository;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
@@ -18,33 +19,33 @@ import java.util.Collection;
 public class CustomShiroSessionDao extends AbstractSessionDAO {
 
     @Resource
-    private ShiroSessionDao shiroSessionDao;
+    @Autowired
+    private ShiroSessionRepository shiroSessionRepository;
 
-
-    public ShiroSessionDao getShiroSessionDao() {
-        return shiroSessionDao;
-    }
-
-    public void setShiroSessionDao(ShiroSessionDao shiroSessionDao) {
-        this.shiroSessionDao = shiroSessionDao;
-    }
+//    public ShiroSessionRepository getShiroSessionRepository() {
+//        return shiroSessionRepository;
+//    }
+//
+//    public void setShiroSessionRepository(ShiroSessionRepository shiroSessionRepository) {
+//        this.shiroSessionRepository = shiroSessionRepository;
+//    }
 
     @Override
     protected Serializable doCreate(Session session) {
         Serializable sessionId = this.generateSessionId(session);
         this.assignSessionId(session, sessionId);
-        shiroSessionDao.saveSession(session);
+        shiroSessionRepository.saveSession(session);
         return sessionId;
     }
 
     @Override
     protected Session doReadSession(Serializable sessionId) {
-        return shiroSessionDao.getSession(sessionId);
+        return shiroSessionRepository.getSession(sessionId);
     }
 
     @Override
     public void update(Session session) throws UnknownSessionException {
-        shiroSessionDao.saveSession(session);
+        shiroSessionRepository.saveSession(session);
     }
 
     @Override
@@ -54,13 +55,13 @@ public class CustomShiroSessionDao extends AbstractSessionDAO {
         }
         Serializable sessiongId = session.getId();
         if (sessiongId != null) {
-            shiroSessionDao.deleteSession(sessiongId);
+            shiroSessionRepository.deleteSession(sessiongId);
         }
 
     }
 
     @Override
     public Collection<Session> getActiveSessions() {
-        return shiroSessionDao.getAllSessions();
+        return shiroSessionRepository.getAllSessions();
     }
 }

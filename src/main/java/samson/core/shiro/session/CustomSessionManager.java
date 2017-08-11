@@ -3,7 +3,7 @@ package samson.core.shiro.session;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import samson.common.po.User;
 import samson.common.util.ArrayUtil;
 import samson.common.util.LoggerUtil;
@@ -20,21 +20,31 @@ import static samson.core.shiro.statics.ShiroStatics.SESSION_STATUS;
  * Created by 96428 on 2017/7/21.
  * This in ssmjavaconfig, samson.core.shiro.session
  */
-@Component
+
 public class CustomSessionManager {
 
     @Resource
-    private ShiroSessionDao shiroSessionDao;
+    @Autowired
+    private ShiroSessionRepository shiroSessionRepository;
 
     @Resource
+    @Autowired
     private CustomShiroSessionDao customShiroSessionDao;
+//
+//    public void setShiroSessionRepository(ShiroSessionRepository shiroSessionRepository) {
+//        this.shiroSessionRepository = shiroSessionRepository;
+//    }
+//
+//    public void setCustomShiroSessionDao(CustomShiroSessionDao customShiroSessionDao) {
+//        this.customShiroSessionDao = customShiroSessionDao;
+//    }
 
     /**
      * 获取当前系统内所有用户的集合
      * @return 用户集合
      */
     public List<UserOnlineBo> getAllUsers() {
-        Collection<Session> sessions = shiroSessionDao.getAllSessions();
+        Collection<Session> sessions = shiroSessionRepository.getAllSessions();
         List<UserOnlineBo> users = new ArrayList<>();
 
         for (Session session : sessions) {
@@ -82,7 +92,7 @@ public class CustomSessionManager {
     }
 
     public UserOnlineBo getSession(String sessionId) {
-        Session session = shiroSessionDao.getSession(sessionId);
+        Session session = shiroSessionRepository.getSession(sessionId);
         return getUserFromSession(session);
     }
 
@@ -138,7 +148,7 @@ public class CustomSessionManager {
             String[] ids = sessionIds.split(",");
 
             for (String id : ids ) {
-                Session session = shiroSessionDao.getSession(id);
+                Session session = shiroSessionRepository.getSession(id);
                 SessionStatus sessionStatus = new SessionStatus();
                 sessionStatus.setOnlineStatus(status);
                 session.setAttribute(SESSION_STATUS, sessionStatus);
@@ -170,7 +180,7 @@ public class CustomSessionManager {
             //匹配用户ID
             if(userId.equals(id)){
                 //获取用户Session
-                Session session = shiroSessionDao.getSession(bo.getSessionId());
+                Session session = shiroSessionRepository.getSession(bo.getSessionId());
                 //标记用户Session
                 SessionStatus sessionStatus = (SessionStatus) session.getAttribute(ShiroStatics.SESSION_STATUS);
                 //是否踢出 true:有效，false：踢出。

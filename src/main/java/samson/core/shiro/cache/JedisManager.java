@@ -1,7 +1,6 @@
 package samson.core.shiro.cache;
 
 import org.apache.shiro.session.Session;
-import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.exceptions.JedisConnectionException;
@@ -19,19 +18,18 @@ import java.util.Set;
  * This in ssmjavaconfig, samson.core.shiro.cache
  * session 创建、删除、查询
  */
-@Component
 public class JedisManager {
 
     @Resource
     private JedisPool jedisPool;
-
-    public JedisPool getJedisPool() {
-        return jedisPool;
-    }
-
-    public void setJedisPool(JedisPool jedisPool) {
-        this.jedisPool = jedisPool;
-    }
+//
+//    public JedisPool getJedisPool() {
+//        return jedisPool;
+//    }
+//
+//    public void setJedisPool(JedisPool jedisPool) {
+//        this.jedisPool = jedisPool;
+//    }
 
     /**
      * 获取Jedis
