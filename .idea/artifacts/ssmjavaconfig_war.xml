@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="ssmjavaconfig:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="ssm-javaconfig.war">
-      <element id="artifact" artifact-name="ssmjavaconfig:war exploded" />
-    </root>
-  </artifact>
-</component>
